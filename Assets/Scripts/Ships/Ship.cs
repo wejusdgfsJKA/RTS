@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Ship : MonoBehaviour
 {
+    [field: SerializeField] public string Name { get; protected set; }
     [Header("Movement")]
     [field: SerializeField] public float Speed;
     [field: SerializeField] public float Turn;
@@ -13,10 +14,13 @@ public class Ship : MonoBehaviour
     protected void Awake()
     {
         MySensor = GetComponent<Sensor>();
-        Transform wpns = transform.GetChild(0);
-        for (int i = 0; i < wpns.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
-            Weapons.Add(wpns.GetChild(i).GetComponent<Weapon>());
+            Weapons.Add(transform.GetChild(i).GetComponent<Weapon>());
         }
+    }
+    public void ReceiveAttack(DmgInfo dmgInfo)
+    {
+
     }
 }

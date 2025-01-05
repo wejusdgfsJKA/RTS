@@ -2,7 +2,7 @@ using UnityEngine;
 public class Weapon : ShipComponent
 {
     public enum DmgType { Ballistic, Energy }
-    public enum Angle { Front, Broadside }
+    public enum Angle { Front, Broadside, All }
     [field: SerializeField] public DmgType DamageType { get; protected set; }
     [field: SerializeField] public Angle AngleType { get; protected set; }
     [field: SerializeField] public float AngleValue { get; protected set; }
@@ -10,6 +10,8 @@ public class Weapon : ShipComponent
     {
         switch (AngleType)
         {
+            case Angle.All:
+                return true;
             case Angle.Front:
                 return Vector3.Angle(transform.root.forward, target.position -
                     transform.root.position) <= (180 - AngleValue) / 2;
