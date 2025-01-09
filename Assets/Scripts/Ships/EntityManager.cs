@@ -26,7 +26,7 @@ public class EntityManager : MonoBehaviour
         //add an entity to the roster
         try
         {
-            Roster.Add(ship.Name, ship);
+            Roster.Add(ship.Parameters.Name, ship);
             //Debug.Log("Added " + entityData.Name + " to roster.");
         }
         catch (System.Exception e)
@@ -35,7 +35,7 @@ public class EntityManager : MonoBehaviour
         }
         try
         {
-            pool.Add(ship.Name, new Queue<Ship>());
+            pool.Add(ship.Parameters.Name, new Queue<Ship>());
             //Debug.Log("Added " + entityData.Name + " to roster.");
         }
         catch (System.Exception e)
@@ -64,12 +64,12 @@ public class EntityManager : MonoBehaviour
         //this ship just got destroyed
         try
         {
-            pool[ship.Name].Enqueue(ship);
+            pool[ship.Parameters.Name].Enqueue(ship);
         }
         catch (KeyNotFoundException)
         {
-            pool.Add(ship.Name, new Queue<Ship>());
-            pool[ship.Name].Enqueue(ship);
+            pool.Add(ship.Parameters.Name, new Queue<Ship>());
+            pool[ship.Parameters.Name].Enqueue(ship);
         }
     }
     public void SendAttack(Transform ship, DmgInfo dmgInfo)

@@ -20,22 +20,16 @@ public class PlayerController : MonoBehaviour
     }
     protected void Update()
     {
-        if (!pivoting)
+        Vector3 dir = new Vector3(wasd.x, wasd.y, 0).normalized * movSpd * Time.deltaTime;
+        if (highSpeed)
         {
-            Vector3 dir = new Vector3(wasd.x, wasd.y, 0).normalized * movSpd * Time.deltaTime;
-            if (highSpeed)
-            {
-                dir *= spdMultiplier;
-            }
-            transform.Translate(dir, Space.Self);
+            dir *= spdMultiplier;
         }
+        transform.Translate(dir, Space.Self);
     }
     public void OnZoom(InputAction.CallbackContext context)
     {
-        if (!pivoting)
-        {
-            transform.Translate(new Vector3(0, 0, context.ReadValue<float>() * zoomSpd), Space.Self);
-        }
+        transform.Translate(new Vector3(0, 0, context.ReadValue<float>() * zoomSpd), Space.Self);
     }
     public void OnMouseDelta(InputAction.CallbackContext context)
     {
