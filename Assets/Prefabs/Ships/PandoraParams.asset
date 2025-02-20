@@ -17,6 +17,8 @@ MonoBehaviour:
   <Turn>k__BackingField: 1
   <Signature>k__BackingField: 1
   <Shield>k__BackingField: 1
+  <ShieldRegen>k__BackingField: 0.01
   <HP>k__BackingField: 1
+  <SensorRange>k__BackingField: 1
   <Weapons>k__BackingField:
   - {fileID: 11400000, guid: c8deaa57edb96994aaef7d276c02617e, type: 2}

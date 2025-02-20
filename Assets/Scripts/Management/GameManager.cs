@@ -1,16 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+public enum DmgType { Kinetic, Energy }
+public enum TargetType { Hull, Shield }
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] protected float HullEnergyDmgMultiplier = 1;
-    [SerializeField] protected float HullBallisticDmgMultiplier = 1;
-    [SerializeField] protected float ShieldEnergyDmgMultiplier = 1;
-    [SerializeField] protected float ShieldBallisticDmgMultiplier = 1;
+    public static GameManager Instance { get; protected set; }
+    public Dictionary<DmgType, Dictionary<TargetType, float>> DamageModifiers { get; protected set; }
     protected void Awake()
     {
-        Numbers.ShieldEnergyDmgMultiplier = ShieldEnergyDmgMultiplier;
-        Numbers.HullEnergyDmgMultiplier = HullEnergyDmgMultiplier;
-        Numbers.HullBallisticDmgMultiplier = HullBallisticDmgMultiplier;
-        Numbers.ShieldBallisticDmgMultiplier = ShieldBallisticDmgMultiplier;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
+
 }

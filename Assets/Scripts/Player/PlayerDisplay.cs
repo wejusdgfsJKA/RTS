@@ -14,8 +14,8 @@ public class PlayerDisplay : MonoBehaviour
         for (int i = 0; i < ships.Count; i++)
         {
             Vector3 dir = (ships[i].transform.position - transform.position).normalized;
-            ships[i].Symbol.position = transform.position + dir * spriteDist;
-            ships[i].Symbol.LookAt(transform);
+            //ships[i].Symbol.position = transform.position + dir * spriteDist;
+            //ships[i].Symbol.LookAt(transform);
         }
     }
 }

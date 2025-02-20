@@ -7,7 +7,8 @@ public class ShipParameters : ScriptableObject
     [field: SerializeField] public float Speed { get; protected set; }
     [field: SerializeField] public float Turn { get; protected set; }
     [field: SerializeField] public float Signature { get; protected set; }
-    [field: SerializeField] public float Shield { get; protected set; }
     [field: SerializeField] public float HP { get; protected set; }
+    [field: SerializeField] public ShieldParameters ShieldParams { get; protected set; }
+    [field: SerializeField] public SensorParameters SensorParams { get; protected set; }
     [field: SerializeField] public List<WeaponParameters> Weapons { get; protected set; }
 }

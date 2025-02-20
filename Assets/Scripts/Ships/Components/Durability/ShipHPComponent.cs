@@ -17,14 +17,8 @@ public class ShipHPComponent : MonoBehaviour
     }
     public void TakeDamage(DmgInfo dmgInfo)
     {
-        if (dmgInfo.DmgType == WeaponParameters.DmgType.Ballistic)
-        {
-            CurrentHP -= dmgInfo.Value * Numbers.HullBallisticDmgMultiplier;
-        }
-        else
-        {
-            CurrentHP -= dmgInfo.Value * Numbers.HullEnergyDmgMultiplier;
-        }
+        CurrentHP -= dmgInfo.Value * GameManager.Instance.
+            DamageModifiers[dmgInfo.Type][TargetType.Hull];
         if (CurrentHP <= 0)
         {
             Die();

@@ -1,5 +1,32 @@
 using UnityEngine;
 public class ShipComponent : MonoBehaviour
 {
-    [field: SerializeField] public float Signature { get; protected set; }
+    protected Ship ship;
+    protected float signature;
+    public float Signature
+    {
+        get
+        {
+            return signature;
+        }
+        set
+        {
+            if (value >= 0)
+            {
+                signature = value;
+            }
+        }
+    }
+    protected void Awake()
+    {
+        ship = GetComponentInParent<Ship>();
+    }
+    protected void OnEnable()
+    {
+        ship.Signature += signature;
+    }
+    protected void OnDisable()
+    {
+        ship.Signature -= signature;
+    }
 }

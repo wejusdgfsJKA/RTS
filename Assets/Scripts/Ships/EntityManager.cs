@@ -72,16 +72,15 @@ public class EntityManager : MonoBehaviour
             pool[ship.Parameters.Name].Enqueue(ship);
         }
     }
-    public void SendAttack(Transform ship, DmgInfo dmgInfo)
+    public bool SendAttack(Transform ship, DmgInfo dmgInfo)
     {
         //send the ship the damage package
-        try
+        Ship sh;
+        if (Ships.TryGetValue(ship, out sh))
         {
-            Ships[ship].ReceiveAttack(dmgInfo);
+            sh.ReceiveAttack(dmgInfo);
+            return true;
         }
-        catch (System.Exception e)
-        {
-            Debug.LogException(e);
-        }
+        return false;
     }
 }
