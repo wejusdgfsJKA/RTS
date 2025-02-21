@@ -1,48 +1,30 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EntitySpawner : MonoBehaviour
 {
-    public void Spawn(string shipName, Vector3 position, Quaternion rotation)
+    /// <summary>
+    /// Spawn a new ship.
+    /// </summary>
+    /// <param name="shipID">Internal ID of the ship.</param>
+    /// <param name="position">Desired position.</param>
+    /// <param name="rotation">Desired rotation.</param>
+    public void Spawn(int shipID, Vector3 position, Quaternion rotation)
     {
-        try
+        Ship ship = EntityManager.Instance.GetFromPool(shipID, true);
+        if (ship != null)
         {
-            Ship ship = EntityManager.Instance.GetFromPool(shipName);
-            if (ship != null)
-            {
-                //we have inactive entities we can reactivate
-                ship.transform.position = position;
-                ship.transform.rotation = rotation;
-                ship.gameObject.SetActive(true);
-            }
-            else
-            {
-                //the pool was empty
-                CreateNew(shipName, position, rotation);
-            }
-        }
-        catch (KeyNotFoundException)
-        {
-            //we had no available pool
-            EntityManager.Instance.AddToPool(shipName);
-            CreateNew(shipName, position, rotation);
-        }
-    }
-    protected void CreateNew(string shipName, Vector3 position, Quaternion rotation)
-    {
-        try
-        {
-            //we instantiate a new prefab
-            Ship ship = Instantiate(EntityManager.Instance.
-                Roster[shipName], position, rotation);
-            //register the script in the transform dictionary, to allow damage to
-            //pass to it via its transform
-            EntityManager.Instance.RegisterShip(ship);
+            //we have inactive entities we can reactivate
+            ship.transform.position = position;
+            ship.transform.rotation = rotation;
             ship.gameObject.SetActive(true);
+            return;
         }
-        catch (System.Exception e)
+        else
         {
-            Debug.Log(e.Message);
+            //the pool was empty, so we must instantiate a new prefab
+            Ship newShip = Instantiate(EntityManager.Instance.GetFromRoster(shipID),
+                position, rotation);
+            newShip.gameObject.SetActive(true);
         }
     }
 }

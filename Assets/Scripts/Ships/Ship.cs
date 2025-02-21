@@ -5,23 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(ShipShieldComponent))]
 public class Ship : MonoBehaviour
 {
-    protected float signature;
-    public float Signature
-    {
-        get
-        {
-            return signature;
-        }
-        set
-        {
-            if (value >= 0)
-            {
-                signature = value;
-            }
-        }
-    }
     [field: SerializeField] public ShipParameters Parameters { get; protected set; }
-    public Sensor MySensor { get; protected set; }
     public List<Weapon> Weapons { get; protected set; } = new();
     protected ShipHPComponent hpComponent;
     protected ShipShieldComponent shieldComponent;
@@ -41,8 +25,6 @@ public class Ship : MonoBehaviour
     }
     protected void Awake()
     {
-        Signature = Parameters.Signature;
-
         hpComponent = GetComponent<ShipHPComponent>();
         hpComponent.SetMaxHP(Parameters.HP);
 
@@ -54,17 +36,18 @@ public class Ship : MonoBehaviour
         for (int i = 0; i < wpns.childCount; i++)
         {
             var wpn = wpns.GetChild(i).GetComponent<Weapon>();
-            wpn.Parameters = Parameters.Weapons[i];
+            wpn.Parameters = Parameters.WeaponParams[i];
             Weapons.Add(wpn);
         }
-
-        MySensor = GetComponent<Sensor>();
-        MySensor.Parameters = Parameters.SensorParams;
     }
     protected void OnEnable()
     {
-        shieldComponent.Reset();
+        EntityManager.Instance.RegisterShip(this);
     }
+    /// <summary>
+    /// Receive an attack from a source of damage.
+    /// </summary>
+    /// <param name="dmgInfo">Damage package.</param>
     public void ReceiveAttack(DmgInfo dmgInfo)
     {
         //the breach variable represents how much damage got past the shields

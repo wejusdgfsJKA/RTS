@@ -1,8 +1,17 @@
 using UnityEngine;
 public class DmgInfo
 {
+    /// <summary>
+    /// The entity who dealt the damage.
+    /// </summary>
     public Transform Owner { get; protected set; }
+    /// <summary>
+    /// How much damage was dealt.
+    /// </summary>
     public float Value { get; set; }
+    /// <summary>
+    /// The type of damage that was dealt.
+    /// </summary>
     public DmgType Type { get; protected set; }
     public DmgInfo(Transform owner, float value, DmgType dmgType)
     {

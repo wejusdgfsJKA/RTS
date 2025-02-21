@@ -1,14 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
+/// <summary>
+/// A scriptable object which contains all the data about a ship.
+/// </summary>
 [CreateAssetMenu(menuName = "ScriptableObjects/ShipParameters")]
 public class ShipParameters : ScriptableObject
 {
-    [field: SerializeField] public string Name { get; protected set; }
+    /// <summary>
+    /// Internal ID of the ship.
+    /// </summary>
+    [field: SerializeField] public int ID { get; protected set; }
     [field: SerializeField] public float Speed { get; protected set; }
+    /// <summary>
+    /// How fast can the ship turn.
+    /// </summary>
     [field: SerializeField] public float Turn { get; protected set; }
-    [field: SerializeField] public float Signature { get; protected set; }
     [field: SerializeField] public float HP { get; protected set; }
     [field: SerializeField] public ShieldParameters ShieldParams { get; protected set; }
-    [field: SerializeField] public SensorParameters SensorParams { get; protected set; }
-    [field: SerializeField] public List<WeaponParameters> Weapons { get; protected set; }
+    /// <summary>
+    /// The parameters of all of the ship's weapons.
+    /// </summary>
+    [field: SerializeField] public List<WeaponParameters> WeaponParams { get; protected set; }
+    [field: SerializeField] public float SensorRange { get; protected set; }
 }

@@ -1,4 +1,6 @@
-public class ShipShieldComponent : ShipComponent
+using UnityEngine;
+
+public class ShipShieldComponent : MonoBehaviour
 {
     protected float maxShield;
     protected float currentShield;
@@ -28,7 +30,7 @@ public class ShipShieldComponent : ShipComponent
             }
         }
     }
-    public void Reset()
+    public void OnEnable()
     {
         CurrentShield = maxShield;
     }
