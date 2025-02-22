@@ -67,8 +67,8 @@ public class BlackBoard
     /// <summary>
     /// Remove an action that was tied to this resource.
     /// </summary>
-    /// <param name="_action"></param>
-    /// <param name="_key"></param>
+    /// <param name="action"></param>
+    /// <param name="key"></param>
     public void RemoveListener(Action action, string key)
     {
         if (data.ContainsKey(key))
@@ -81,7 +81,8 @@ public class BlackBoard
     /// </summary>
     /// <typeparam name="T">The datatype of the resource.</typeparam>
     /// <param name="key">The key which identifies the resource.</param>
-    /// <returns>Returns the value of the resource if the key is found, or the default value otherwise.</returns>
+    /// <returns>Returns the value of the resource if the key is found, 
+    /// or the default value otherwise.</returns>
     public T GetData<T>(string key)
     {
         if (data.ContainsKey(key))
