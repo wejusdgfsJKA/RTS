@@ -98,18 +98,20 @@ public class EntityManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// Send a target the damage package.
+    /// Send an attacked ship a damage package.
     /// </summary>
-    /// <param name="target"> The object being attacked. </param>
-    /// <param name="dmgInfo"> The damage package. </param>
-    /// <returns></returns>
-    public bool SendAttack(Transform target, DmgInfo dmgInfo)
+    /// <param name="target">The target being attacked.</param>
+    /// <param name="dmgInfo">The damage package.</param>
+    /// <param name="hit">True if the target was hit (only if the target was valid).</param>
+    /// <returns>True if the target was valid.</returns>
+    public bool SendAttack(Transform target, DmgInfo dmgInfo, out bool hit)
     {
         //send the ship the damage package
+        hit = false;
         Ship ship;
         if (ships.TryGetValue(target, out ship))
         {
-            ship.ReceiveAttack(dmgInfo);
+            hit = ship.ReceiveAttack(dmgInfo);
             return true;
         }
         return false;

@@ -27,6 +27,10 @@ public class WeaponParameters : ScriptableObject
     /// </summary>
     [field: SerializeField] public float Damage { get; protected set; }
     /// <summary>
+    /// How accurate this weapon is.
+    /// </summary>
+    [field: SerializeField] public float Accuracy { get; protected set; }
+    /// <summary>
     /// The range of the weapon, squared.
     /// </summary>
     [field: SerializeField] public float SqrdRange { get; protected set; }

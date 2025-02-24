@@ -13,10 +13,15 @@ public class DmgInfo
     /// The type of damage that was dealt.
     /// </summary>
     public DmgType Type { get; protected set; }
-    public DmgInfo(Transform owner, float value, DmgType dmgType)
+    /// <summary>
+    /// How accurate this hit is.
+    /// </summary>
+    public float Accuracy { get; protected set; }
+    public DmgInfo(Transform owner, float value, DmgType dmgType, float accuracy)
     {
         Owner = owner;
         Value = value;
         Type = dmgType;
+        Accuracy = accuracy;
     }
 }

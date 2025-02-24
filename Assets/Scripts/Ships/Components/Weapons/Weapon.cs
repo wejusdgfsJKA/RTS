@@ -14,7 +14,7 @@ public class Weapon : MonoBehaviour
             if (value != null && parameters == null)
             {
                 parameters = value;
-                dmgInfo = new DmgInfo(transform.parent, value.Damage, value.DamageType);
+                dmgInfo = new DmgInfo(transform.parent, value.Damage, value.DamageType, parameters.Accuracy);
             }
         }
     }
@@ -71,15 +71,17 @@ public class Weapon : MonoBehaviour
     /// <summary>
     /// Attempt to attack a target.
     /// </summary>
-    /// <param name="target"> The target we want to attack. </param>
-    /// <returns>True if the attack was successfull </returns>
-    public bool Attack(Transform target)
+    /// <param name="target">The target we want to attack.</param>
+    /// <param name="hit">True if the attack hit the target (only if the target was valid).</param>
+    /// <returns>True if the target was valid.</returns>
+    public bool Attack(Transform target, out bool hit)
     {
+        hit = false;
         if (Ready && DistCheck(target) && AngleCheck(target))
         {
             //fire
             lastFired = Time.time;
-            return EntityManager.Instance.SendAttack(target, dmgInfo);
+            return EntityManager.Instance.SendAttack(target, dmgInfo, out hit);
         }
         return false;
     }

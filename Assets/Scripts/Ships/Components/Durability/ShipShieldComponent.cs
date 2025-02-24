@@ -3,6 +3,20 @@ using UnityEngine;
 public class ShipShieldComponent : MonoBehaviour
 {
     protected float maxShield;
+    public float MaxShield
+    {
+        get
+        {
+            return maxShield;
+        }
+        set
+        {
+            if (maxShield < 0 && value >= 0)
+            {
+                maxShield = value;
+            }
+        }
+    }
     protected float currentShield;
     public float CurrentShield
     {
@@ -25,7 +39,7 @@ public class ShipShieldComponent : MonoBehaviour
         {
             if (value != null)
             {
-                maxShield = value.MaxShield;
+                MaxShield = value.MaxShield;
                 regen = value.Regen;
             }
         }
@@ -34,6 +48,13 @@ public class ShipShieldComponent : MonoBehaviour
     {
         CurrentShield = maxShield;
     }
+    /// <summary>
+    /// The shield takes damage and returns the amount of 
+    /// damage that got past it. If negative, the shield 
+    /// hasn't been breached yet.
+    /// </summary>
+    /// <param name="dmgInfo">The damage ackage.</param>
+    /// <returns>The amount of damage that got past the shield.</returns>
     public float TakeDamage(DmgInfo dmgInfo)
     {
         //breach represents how much damage got past the shields

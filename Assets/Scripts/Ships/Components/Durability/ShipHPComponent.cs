@@ -15,6 +15,10 @@ public class ShipHPComponent : MonoBehaviour
             MaxHP = value;
         }
     }
+    /// <summary>
+    /// Take damage. If reduced to 0 or below HP, call the Die method.
+    /// </summary>
+    /// <param name="dmgInfo">The damage package.</param>
     public void TakeDamage(DmgInfo dmgInfo)
     {
         CurrentHP -= dmgInfo.Value * GameManager.Instance.
@@ -24,6 +28,9 @@ public class ShipHPComponent : MonoBehaviour
             Die();
         }
     }
+    /// <summary>
+    /// Fires when the ship is destroyed.
+    /// </summary>
     protected void Die()
     {
         transform.root.gameObject.SetActive(false);
