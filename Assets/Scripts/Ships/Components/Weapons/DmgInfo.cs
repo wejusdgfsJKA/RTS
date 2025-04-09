@@ -1,4 +1,7 @@
 using UnityEngine;
+/// <summary>
+/// Damage package.
+/// </summary>
 public class DmgInfo
 {
     /// <summary>

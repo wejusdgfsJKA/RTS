@@ -16,7 +16,8 @@ public class ShipParameters : ScriptableObject
     /// </summary>
     [field: SerializeField] public float Turn { get; protected set; }
     /// <summary>
-    /// How difficult the ship is to target.
+    /// How difficult the ship is to target. Default is 0. 
+    /// Higher values mean the ship is more difficult to hit.
     /// </summary>
     [field: SerializeField] public float Evasion { get; protected set; }
     [field: SerializeField] public float HP { get; protected set; }

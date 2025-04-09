@@ -6,7 +6,9 @@ using UnityEngine;
 /// All - can attack everywhere.
 /// </summary>
 public enum WeaponAngle { Front, Broadside, All }
-
+/// <summary>
+/// All the data regarding a weapon.
+/// </summary>
 [CreateAssetMenu(menuName = "ScriptableObjects/WeaponParameters")]
 public class WeaponParameters : ScriptableObject
 {
@@ -27,9 +29,10 @@ public class WeaponParameters : ScriptableObject
     /// </summary>
     [field: SerializeField] public float Damage { get; protected set; }
     /// <summary>
-    /// How accurate this weapon is.
+    /// How accurate this weapon is. Higher values mean the 
+    /// weapon is more accurate.
     /// </summary>
-    [field: SerializeField] public float Accuracy { get; protected set; }
+    [field: SerializeField] public float Accuracy { get; protected set; } = 1;
     /// <summary>
     /// The range of the weapon, squared.
     /// </summary>
