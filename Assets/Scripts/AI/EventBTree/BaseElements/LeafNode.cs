@@ -1,5 +1,5 @@
 using System;
-namespace BTree
+namespace EventBTree
 {
     /// <summary>
     /// This node will always be at the bottom of the tree.

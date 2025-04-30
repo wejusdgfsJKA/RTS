@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace BTree
+namespace EventBTree
 {
     public abstract class ElementBase
     {

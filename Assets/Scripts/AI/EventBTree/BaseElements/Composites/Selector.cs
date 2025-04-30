@@ -1,4 +1,4 @@
-namespace BTree
+namespace EventBTree
 {/// <summary>
  /// Evaluate first possible node.
  /// If found successfull child node, state is SUCCESS.<br />
@@ -7,7 +7,7 @@ namespace BTree
  /// </summary>
     public class Selector : Composite
     {
-        public Selector(string name) : base(name) { }
+        public Selector(string name = "") : base(name) { }
         /// <summary>
         /// Start with leftmost child which can be evaluated. If leftmost not running,
         /// continue rightward.<br/>

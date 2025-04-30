@@ -1,4 +1,4 @@
-namespace BTree
+namespace EventBTree
 {
     /// <summary>
     /// Only has two children. Evaluate left child node. If not failure, evaluate 

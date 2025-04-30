@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace BTree
+namespace EventBTree
 {
     public abstract class BTree : MonoBehaviour
     {

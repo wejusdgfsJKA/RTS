@@ -96,4 +96,8 @@ public class Ship : MonoBehaviour
         }
         return true;
     }
+    protected void OnDisable()
+    {
+        EntityManager.Instance.Dead(this);
+    }
 }

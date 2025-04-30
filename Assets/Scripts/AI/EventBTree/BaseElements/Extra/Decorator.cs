@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace BTree
+namespace EventBTree
 {
     public class Decorator : ElementBase
     {

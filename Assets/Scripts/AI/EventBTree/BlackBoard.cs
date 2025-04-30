@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BTree
+namespace EventBTree
 {
     public class BlackBoard
     {

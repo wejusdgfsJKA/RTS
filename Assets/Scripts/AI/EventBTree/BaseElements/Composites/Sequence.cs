@@ -1,4 +1,4 @@
-namespace BTree
+namespace EventBTree
 {
     /// <summary>
     /// Evaluate all children in order, from left to right.

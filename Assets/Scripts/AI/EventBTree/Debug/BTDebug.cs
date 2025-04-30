@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace BTree
+namespace EventBTree
 {
     public class BTDebug : MonoBehaviour
     {

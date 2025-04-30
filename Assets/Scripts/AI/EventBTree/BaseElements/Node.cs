@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-namespace BTree
+namespace EventBTree
 {
     public enum NodeState
     {
