@@ -1,103 +1,94 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ShipHPComponent))]
-[RequireComponent(typeof(ShipShieldComponent))]
+/// <summary>
+/// The entity comprising a squadron.
+/// </summary>
+[System.Serializable]
 public class Ship : MonoBehaviour
 {
-    [field: SerializeField] public ShipParameters Parameters { get; protected set; }
-    public List<Weapon> Weapons { get; protected set; } = new();
-    protected ShipHPComponent hpComponent;
-    protected ShipShieldComponent shieldComponent;
-    public float Evasion
+    [SerializeField] protected ShipParams parameters;
+    public int ID
     {
         get
         {
-            return Parameters.Evasion;
+            return parameters.ID;
         }
     }
-    public float MaxHP
+    public ShipType ShipType
     {
         get
         {
-            return hpComponent.MaxHP;
+            return parameters.ShipType;
         }
     }
-    public float CurrentHP
+    /// <summary>
+    /// How fast the ship can move.
+    /// </summary>
+    public int Speed
     {
         get
         {
-            return hpComponent.CurrentHP;
+            return parameters.Speed;
         }
     }
-    public float MaxShield
+    public List<Weapon> Weapons
     {
         get
         {
-            return shieldComponent.MaxShield;
+            return parameters.Weapons;
         }
     }
-    public float CurrentShield
-    {
-        get
-        {
-            return shieldComponent.CurrentShield;
-        }
-    }
+    /// <summary>
+    /// How much HP the ship currently has.
+    /// </summary>
+    public int CurrentHP { get; protected set; }
+    public Squadron ParentSquadron { get; set; }
     protected void Awake()
     {
-        hpComponent = GetComponent<ShipHPComponent>();
-        hpComponent.SetMaxHP(Parameters.HP);
-
-        shieldComponent = GetComponent<ShipShieldComponent>();
-
-        shieldComponent.Parameters = Parameters.ShieldParams;
-
-        var wpns = transform.GetChild(0);//cache the weapons holder
-        for (int i = 0; i < wpns.childCount; i++)
+        for (int i = 0; i < Weapons.Count; i++)
         {
-            var wpn = wpns.GetChild(i).GetComponent<Weapon>();
-            wpn.Parameters = Parameters.WeaponParams[i];
-            Weapons.Add(wpn);
+            Weapons[i].Source = this;
         }
     }
     protected void OnEnable()
     {
-        EntityManager.Instance.RegisterShip(this);
-    }
-    /// <summary>
-    /// Receive a damage package.
-    /// </summary>
-    /// <param name="dmgInfo">The damage package.</param>
-    /// <returns>True if the source of damage did not miss.</returns>
-    public bool ReceiveAttack(DmgInfo dmgInfo)
-    {
-        var chanceToHit = dmgInfo.Accuracy - Evasion;
-        if (chanceToHit <= 0)
-        {
-            //the hit is guaranteed to miss.
-            return false;
-        }
-        if (chanceToHit < 1)
-        {
-            //the hit has a chance to miss
-            var a = Random.Range(0, 1);
-            if (a > chanceToHit)
-            {
-                //the hit missed
-                return false;
-            }
-        }
-        //the breach variable represents how much damage got past the shields
-        float breach = shieldComponent.TakeDamage(dmgInfo);
-        if (breach > 0)
-        {
-            hpComponent.TakeDamage(new DmgInfo(dmgInfo.Owner, breach, dmgInfo.Type, dmgInfo.Accuracy));
-        }
-        return true;
+        CurrentHP = parameters.HP;
     }
     protected void OnDisable()
     {
-        EntityManager.Instance.Dead(this);
+        ParentSquadron.RemoveShip(this);
+        ParentSquadron = null;
+        ShipManager.Instance?.AddToPool(this);
+    }
+    public void MoveToPoint(Vector3 point)
+    {
+        if (Vector3.Distance(point, transform.position) < Speed)
+        {
+            transform.position = point;
+        }
+        else
+        {
+            transform.position += (point - transform.position) * Speed;
+        }
+    }
+    /// <summary>
+    /// Receive damage.
+    /// </summary>
+    /// <param name="dmgInfo">The damage package.</param>
+    public void TakeDamage(DmgInfo dmgInfo)
+    {
+        CurrentHP -= dmgInfo.Damage;
+        if (CurrentHP <= 0)
+        {
+            Die();
+        }
+    }
+    /// <summary>
+    /// Fires when the ship is destroyed. Deactivates the ship GameObject.
+    /// </summary>
+    protected virtual void Die()
+    {
+        gameObject.SetActive(false);
     }
 }
