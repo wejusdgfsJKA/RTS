@@ -131,9 +131,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1422752212}
-  - component: {fileID: 1422752211}
-  - component: {fileID: 1422752213}
+  - component: {fileID: 1422752215}
   - component: {fileID: 1422752214}
+  - component: {fileID: 1422752213}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -141,18 +141,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1422752211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1422752210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19ad65de95426ed42bdeac755bb69f7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1422752212
 Transform:
   m_ObjectHideFlags: 0
@@ -177,9 +165,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1422752210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d50cffaf19e85714b9a815794c65198e, type: 3}
+  m_Script: {fileID: 11500000, guid: b77879cff495ddb4b84e6703ebdbd733, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ships: []
 --- !u!114 &1422752214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,22 +178,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1422752210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c956bb63af0871c4eb4509f2b9c95d9d, type: 3}
+  m_Script: {fileID: 11500000, guid: 754234628d549cd4886b925aaab389e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modifiers:
-  - <DamageType>k__BackingField: 0
-    <TargetType>k__BackingField: 0
-    <Modifier>k__BackingField: 0.5
-  - <DamageType>k__BackingField: 0
-    <TargetType>k__BackingField: 1
-    <Modifier>k__BackingField: 1
-  - <DamageType>k__BackingField: 1
-    <TargetType>k__BackingField: 0
-    <Modifier>k__BackingField: 1
-  - <DamageType>k__BackingField: 1
-    <TargetType>k__BackingField: 1
-    <Modifier>k__BackingField: 0.5
+--- !u!114 &1422752215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422752210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e30d1e2d6196c40b60535820865443, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnCooldown: 0.5
+  fleets:
+  - {fileID: 11400000, guid: a7a301c89421f4740bec6f84a3c7e584, type: 2}
+  - {fileID: 11400000, guid: a7a301c89421f4740bec6f84a3c7e584, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

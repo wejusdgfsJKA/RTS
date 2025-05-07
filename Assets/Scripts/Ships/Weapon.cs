@@ -22,7 +22,7 @@ public class Weapon
     /// How far this weapon can reach.
     /// </summary>
     [field: SerializeField] public int Range { get; protected set; }
-    [SerializeField] protected float cooldown;
+    [field: SerializeField] public float Cooldown { get; protected set; }
     protected float timeLastFired;
     protected Transform transform;
     public bool Fire(Ship target)
@@ -41,6 +41,6 @@ public class Weapon
     }
     public bool CanFire()
     {
-        return Time.time - timeLastFired >= cooldown;
+        return Time.time - timeLastFired >= Cooldown;
     }
 }

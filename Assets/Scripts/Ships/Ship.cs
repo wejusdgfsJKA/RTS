@@ -15,6 +15,10 @@ public class Ship : MonoBehaviour
             return parameters.ID;
         }
     }
+    /// <summary>
+    /// The squadron this ship is a part of.
+    /// </summary>
+    public Squadron Squadron { get; set; }
     public ShipType ShipType
     {
         get
@@ -43,7 +47,6 @@ public class Ship : MonoBehaviour
     /// How much HP the ship currently has.
     /// </summary>
     public int CurrentHP { get; protected set; }
-    public Squadron ParentSquadron { get; set; }
     protected void Awake()
     {
         for (int i = 0; i < Weapons.Count; i++)
@@ -54,12 +57,6 @@ public class Ship : MonoBehaviour
     protected void OnEnable()
     {
         CurrentHP = parameters.HP;
-    }
-    protected void OnDisable()
-    {
-        ParentSquadron.RemoveShip(this);
-        ParentSquadron = null;
-        ShipManager.Instance?.AddToPool(this);
     }
     public void MoveToPoint(Vector3 point)
     {
@@ -85,10 +82,10 @@ public class Ship : MonoBehaviour
         }
     }
     /// <summary>
-    /// Fires when the ship is destroyed. Deactivates the ship GameObject.
+    /// Fires when the ship's HP reaches 0.
     /// </summary>
     protected virtual void Die()
     {
-        gameObject.SetActive(false);
+        GameManager.AddShipToCleanupQueue(this);
     }
 }

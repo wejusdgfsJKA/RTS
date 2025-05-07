@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00302795043700747b1aa453b42d8980, type: 3}
-  m_Name: SupernovaParams
+  m_Script: {fileID: 11500000, guid: 15d61396a20055446b4b0d067e4d3960, type: 3}
+  m_Name: Fleet1
   m_EditorClassIdentifier: 
-  <DamageType>k__BackingField: 1
-  <AngleType>k__BackingField: 0
-  <AngleValue>k__BackingField: 90
-  <Damage>k__BackingField: 1
+  <Ships>k__BackingField: []
+  <Squadrons>k__BackingField:
+  - {fileID: 11400000, guid: 2eac2b73cddc417488cd67d853e4c9f6, type: 2}
