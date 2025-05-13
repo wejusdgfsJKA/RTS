@@ -3,30 +3,39 @@ using UnityEngine;
 
 /// <summary>
 /// The squadron manages all the ships in it to execute a given order. A fleet is 
-/// comprised of many squadrons. Squadrons can be broken and reformed at any time.
+/// comprised of many fleetCommand. Squadrons can be broken and reformed at any time.
 /// </summary>
 [System.Serializable]
 public class Squadron
 {
-    public int Fleet { get; set; }
+    public int Fleet { get; protected set; }
+    public float CombatPower { get; protected set; }
     /// <summary>
     /// All the ships in the squadron.
     /// </summary>
-    public HashSet<Ship> Ships { get; protected set; }
+    public HashSet<Ship> Ships { get; protected set; } = new();
     /// <summary>
-    /// All the subordinate squadrons.
+    /// All the subordinate fleetCommand.
     /// </summary>
-    public HashSet<Squadron> Squadrons { get; protected set; }
-    public Squadron(SquadronScriptable scriptable)
+    public HashSet<Squadron> Squadrons { get; protected set; } = new();
+    public SquadronAI AI { get; protected set; }
+    public Vector3 Position { get; protected set; }
+    public Squadron(SquadronScriptable scriptable, int fleet)
     {
+        Fleet = fleet;
+        AI = new SquadronAI(this);
         for (int i = 0; i < scriptable.Ships.Count; i++)
         {
-            var s = ShipManager.Instance.Spawn(scriptable.Ships[i].ID, Vector3.zero);
-            Ships.Add(s);
+            var s = ShipManager.Instance.Spawn(scriptable.Ships[i], Vector3.zero);
+            if (AddShip(s))
+            {
+                s.SymbolColor = FleetManager.Instance.Colors[fleet];
+                FleetManager.Instance.Fleets[fleet].AddShip(s);
+            }
         }
         for (int i = 0; i < scriptable.Squadrons.Count; i++)
         {
-            Squadrons.Add(new Squadron(scriptable.Squadrons[i]));
+            Squadrons.Add(new Squadron(scriptable.Squadrons[i], fleet));
         }
     }
     public bool AddShip(Ship ship)
@@ -34,13 +43,19 @@ public class Squadron
         if (Ships.Add(ship))
         {
             ship.Squadron = this;
+            CombatPower += ship.CombatPower;
             return true;
         }
         return false;
     }
-    public void RemoveShip(Ship ship)
+    public bool RemoveShip(Ship ship)
     {
-        Ships.Remove(ship);
+        if (Ships.Remove(ship))
+        {
+            CombatPower -= ship.CombatPower;
+            return true;
+        }
+        return false;
     }
     public bool AddSquadron(Squadron squadron)
     {
@@ -52,17 +67,24 @@ public class Squadron
     }
     public void Move()
     {
-        throw new System.NotImplementedException();
+        AI.Move();
+        Position = Vector3.zero;
+        foreach (Ship ship in Ships)
+        {
+            Position += ship.transform.position;
+        }
+        Position /= Ships.Count;
+        foreach (Squadron squadron in Squadrons)
+        {
+            squadron.Move();
+        }
     }
     public void Shoot()
     {
-        throw new System.NotImplementedException();
+        AI.Shoot();
+        foreach (Squadron squadron in Squadrons)
+        {
+            squadron.Shoot();
+        }
     }
-}
-
-[CreateAssetMenu(menuName = "ScriptableObjects/Squadron")]
-public class SquadronScriptable : ScriptableObject
-{
-    [field: SerializeField] public List<ShipParams> Ships { get; protected set; } = new();
-    [field: SerializeField] public List<SquadronScriptable> Squadrons { get; protected set; } = new();
 }

@@ -5,45 +5,67 @@ public class Fleet
 {
     public int ID { get; set; }
     public int ShipCount { get; protected set; } = 0;
-    protected HashSet<Squadron> squadrons = new();
+    protected Squadron fleetCommand;
+    public HashSet<Ship> Ships { get; protected set; } = new();
+    public List<Ship> Targets { get; protected set; } = new();
     public event System.Action<Fleet> OnFleetDestroyed;
-    public Fleet(int ID, SquadronScriptable scriptable)
+    public Fleet(int ID)
     {
         this.ID = ID;
-        Assert.IsNull(scriptable.Ships);
+    }
+    public void Populate(SquadronScriptable scriptable)
+    {
+        Assert.AreEqual(scriptable.Ships.Count, 0);
+        Assert.AreEqual<int>(1, scriptable.Squadrons.Count);
+        ShipCount = ComputeShipCount(scriptable);
+        fleetCommand = new Squadron(scriptable.Squadrons[0], ID);
+    }
+    public int ComputeShipCount(SquadronScriptable scriptable)
+    {
+        int s = scriptable.Ships.Count;
         for (int i = 0; i < scriptable.Squadrons.Count; i++)
         {
-            squadrons.Add(new Squadron(scriptable.Squadrons[i]));
+            s += ComputeShipCount(scriptable.Squadrons[i]);
         }
-    }
-    public bool AddSquadron(Squadron squadron)
-    {
-        return squadrons.Add(squadron);
+        return s;
     }
     public void Move()
     {
-        foreach (var s in squadrons)
+        Targets.Clear();
+        for (int i = 0; i < FleetManager.Instance.Fleets.Count; i++)
         {
-            s.Move();
+            if (i == ID)
+            {
+                continue;
+            }
+            Targets.AddRange(FleetManager.Instance.Fleets[i].Ships);
         }
-        throw new System.NotImplementedException();
+        fleetCommand.Move();
     }
     public void Shoot()
     {
-        foreach (var s in squadrons)
+        fleetCommand.Shoot();
+    }
+    public bool AddShip(Ship ship)
+    {
+        if (Ships.Add(ship))
         {
-            s.Shoot();
+            ShipCount++;
+            return true;
         }
-        throw new System.NotImplementedException();
+        return false;
     }
     public void RemoveShip(Ship ship)
     {
         ship.Squadron.RemoveShip(ship);
         ship.Squadron = null;
-        ShipCount--;
-        if (ShipCount <= 0)
+        if (Ships.Remove(ship))
         {
-            OnFleetDestroyed?.Invoke(this);
+            ShipCount--;
+            if (ShipCount <= 0)
+            {
+                OnFleetDestroyed?.Invoke(this);
+            }
         }
     }
 }

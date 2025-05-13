@@ -9,6 +9,8 @@ public class ShipParams : ScriptableObject
     [field: SerializeField] public string Name { get; protected set; }
     [field: SerializeField] public int HP { get; protected set; } = 1;
     [field: SerializeField] public int Speed { get; protected set; } = 1;
+    [field: SerializeField] public float CombatPower { get; protected set; } = 1;
     [field: SerializeField] public Ship Prefab { get; protected set; }
-    [field: SerializeField] public List<Weapon> Weapons { get; protected set; }
+    [field: SerializeField] public List<WeaponParams> Weapons { get; protected set; }
+    [field: SerializeField] public Sprite Symbol { get; protected set; }
 }

@@ -4,7 +4,8 @@ using UnityEngine;
 public class FleetManager : MonoBehaviour
 {
     public static FleetManager Instance { get; protected set; }
-    protected List<Fleet> fleets = new();
+    public List<Fleet> Fleets { get; protected set; } = new();
+    [field: SerializeField] public List<Color> Colors { get; protected set; } = new();
     protected void Awake()
     {
         if (Instance == null)
@@ -12,28 +13,31 @@ public class FleetManager : MonoBehaviour
             Instance = this;
         }
     }
-    public Fleet AddFleet(SquadronScriptable scriptable)
-    {
-        Fleet fleet = new Fleet(fleets.Count, scriptable);
-        fleets.Add(fleet);
-        return fleet;
-    }
-    public void HandleMovement()
+    public void AddFleets(List<SquadronScriptable> fleets)
     {
         for (int i = 0; i < fleets.Count; i++)
         {
-            fleets[i].Move();
+            Fleet fleet = new Fleet(Fleets.Count);
+            Fleets.Add(fleet);
+            fleet.Populate(fleets[i]);
+        }
+    }
+    public void HandleMovement()
+    {
+        for (int i = 0; i < Fleets.Count; i++)
+        {
+            Fleets[i].Move();
         }
     }
     public void HandleShooting()
     {
-        for (int i = 0; i < fleets.Count; i++)
+        for (int i = 0; i < Fleets.Count; i++)
         {
-            fleets[i].Shoot();
+            Fleets[i].Shoot();
         }
     }
     public void RemoveShip(Ship ship)
     {
-        fleets[ship.Squadron.Fleet].RemoveShip(ship);
+        Fleets[ship.Squadron.Fleet].RemoveShip(ship);
     }
 }

@@ -17,8 +17,8 @@ MonoBehaviour:
   <Name>k__BackingField: 
   <HP>k__BackingField: 1
   <Speed>k__BackingField: 1
+  <CombatPower>k__BackingField: 1
   <Prefab>k__BackingField: {fileID: 1048411897571834728, guid: 687363901b7466b4c89088dd067633b2, type: 3}
   <Weapons>k__BackingField:
-  - <Damage>k__BackingField: 1
-    <Range>k__BackingField: 1
-    cooldown: 1
+  - {fileID: 11400000, guid: a73aab038203b6948b723c1fef521bfe, type: 2}
+  <Symbol>k__BackingField: {fileID: -2413806693520163455, guid: c10211c7675c77044847b0f820b40bf2, type: 3}

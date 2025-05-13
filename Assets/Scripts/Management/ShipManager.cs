@@ -8,20 +8,11 @@ public class ShipManager : MonoBehaviour
     /// The current pool of disabled ships.
     /// </summary>
     protected Dictionary<int, Queue<Ship>> pool = new();
-    /// <summary>
-    /// All the ships the manager can spawn.
-    /// </summary>
-    protected Dictionary<int, Ship> roster = new();
-    [SerializeField] protected List<ShipParams> ships = new();
     protected void OnEnable()
     {
         if (Instance == null)
         {
             Instance = this;
-        }
-        for (int i = 0; i < ships.Count; i++)
-        {
-            roster.Add(ships[i].ID, ships[i].Prefab);
         }
     }
     /// <summary>
@@ -32,9 +23,9 @@ public class ShipManager : MonoBehaviour
     /// <param name="position">Where we want the ship to be spawned.</param>
     /// <returns>Null if the ID was not found in the roster, otherwise will 
     /// return the ship.</returns>
-    public Ship Spawn(int ID, Vector3 position)
+    public Ship Spawn(ShipParams scriptable, Vector3 position)
     {
-        Ship ship = GetFromPool(ID);
+        Ship ship = GetFromPool(scriptable.ID);
         if (ship != null)
         {
             //we have an inactive ship we can reactivate
@@ -43,13 +34,8 @@ public class ShipManager : MonoBehaviour
             return ship;
         }
         //we need to instantiate a new ship
-        Ship prefab;
-        if (roster.TryGetValue(ID, out prefab))
-        {
-            ship = Instantiate(prefab, position, Quaternion.identity);
-            return ship;
-        }
-        return null;
+        ship = Instantiate(scriptable.Prefab, position, Quaternion.identity);
+        return ship;
     }
     /// <summary>
     /// Get a ship from the pool.

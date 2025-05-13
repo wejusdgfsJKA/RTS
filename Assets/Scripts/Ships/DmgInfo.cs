@@ -6,6 +6,11 @@ using UnityEngine;
 [System.Serializable]
 public class DmgInfo
 {
-    [field: SerializeField] public Ship Source { get; set; }
-    [field: SerializeField] public int Damage { get; set; }
+    [field: SerializeField] public Ship Source { get; protected set; }
+    [field: SerializeField] public int Damage { get; protected set; }
+    public DmgInfo(Ship source, int damage)
+    {
+        Source = source;
+        Damage = damage;
+    }
 }

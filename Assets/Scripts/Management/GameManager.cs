@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     protected static Queue<Ship> cleanupQueue = new();
     protected Coroutine coroutine;
     protected WaitForSeconds wait;
+    public Camera MainCamera { get; protected set; }
     protected void Awake()
     {
         if (Instance == null)
@@ -20,13 +21,11 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
         wait = new WaitForSeconds(turnCooldown);
+        MainCamera = Camera.main;
     }
     protected void OnEnable()
     {
-        for (int i = 0; i < fleets.Count; i++)
-        {
-            FleetManager.Instance.AddFleet(fleets[i]);
-        }
+        FleetManager.Instance.AddFleets(fleets);
         coroutine = StartCoroutine(UpdateLoop());
     }
     protected void OnDisable()
@@ -50,24 +49,26 @@ public class GameManager : MonoBehaviour
     }
     protected void HandleMovement()
     {
+        //Debug.Log("Handling movement");
         FleetManager.Instance.HandleMovement();
     }
     protected void HandleShooting()
     {
+        //Debug.Log("Handling shooting");
         FleetManager.Instance.HandleShooting();
     }
     protected void PerformCleanup()
     {
+        //Debug.Log("Performing cleanup");
         while (cleanupQueue.Count > 0)
         {
             var ship = cleanupQueue.Dequeue();
             ship.gameObject.SetActive(false);
             ShipManager.Instance.AddToPool(ship);
-            // WIP, we also need to remove the ships from their fleets,
+            // WIP, we also need to remove the ships from their Fleets,
             // we'll figure that one out later
             FleetManager.Instance.RemoveShip(ship);
         }
-        throw new System.NotImplementedException();
     }
     /// <summary>
     /// Adds this ship to the queue of ships which need to be removed at the end

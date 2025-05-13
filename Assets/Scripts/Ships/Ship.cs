@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// The entity comprising a squadron.
@@ -13,6 +14,13 @@ public class Ship : MonoBehaviour
         get
         {
             return parameters.ID;
+        }
+    }
+    public float CombatPower
+    {
+        get
+        {
+            return parameters.CombatPower;
         }
     }
     /// <summary>
@@ -36,22 +44,33 @@ public class Ship : MonoBehaviour
             return parameters.Speed;
         }
     }
-    public List<Weapon> Weapons
-    {
-        get
-        {
-            return parameters.Weapons;
-        }
-    }
+    public List<Weapon> Weapons { get; protected set; } = new();
     /// <summary>
     /// How much HP the ship currently has.
     /// </summary>
     public int CurrentHP { get; protected set; }
+    protected Image image;
+    public Color SymbolColor
+    {
+        get
+        {
+            return image.color;
+        }
+        set
+        {
+            value.a = 1;
+            image.color = value;
+        }
+    }
     protected void Awake()
     {
-        for (int i = 0; i < Weapons.Count; i++)
+        transform.GetComponentInChildren<Canvas>().worldCamera = GameManager.Instance.MainCamera;
+        image = transform.GetComponentInChildren<Image>();
+        image.sprite = parameters.Symbol;
+        transform.GetComponentInChildren<Button>().onClick.AddListener(OnSelected);
+        for (int i = 0; i < parameters.Weapons.Count; i++)
         {
-            Weapons[i].Source = this;
+            Weapons.Add(new Weapon(parameters.Weapons[i], this));
         }
     }
     protected void OnEnable()
@@ -87,5 +106,9 @@ public class Ship : MonoBehaviour
     protected virtual void Die()
     {
         GameManager.AddShipToCleanupQueue(this);
+    }
+    public void OnSelected()
+    {
+        Debug.Log($"{this} has been selected.");
     }
 }

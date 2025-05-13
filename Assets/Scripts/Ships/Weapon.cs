@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,41 +7,50 @@ using UnityEngine;
 [System.Serializable]
 public class Weapon
 {
-    protected DmgInfo dmgInfo = new();
+    protected DmgInfo dmgInfo;
     public Ship Source
     {
-        set
+        get
         {
-            dmgInfo.Source = value;
-            dmgInfo.Damage = Damage;
-            transform = value.transform;
+            return dmgInfo.Source;
         }
     }
     [field: SerializeField]
-    public int Damage { get; set; }
+    public int Damage { get; protected set; }
     /// <summary>
     /// How far this weapon can reach.
     /// </summary>
     [field: SerializeField] public int Range { get; protected set; }
-    [field: SerializeField] public float Cooldown { get; protected set; }
-    protected float timeLastFired;
+    [field: SerializeField] public int NrOfShots { get; protected set; }
     protected Transform transform;
-    public bool Fire(Ship target)
+    public Weapon(WeaponParams weaponParams, Ship ship)
     {
-        if (CanFire() && CanHit(target.transform.position))
+        Damage = weaponParams.Damage;
+        Range = weaponParams.Range;
+        NrOfShots = weaponParams.NrOfShots;
+        dmgInfo = new DmgInfo(ship, Damage);
+    }
+    public void Fire(ICollection<System.Tuple<Ship, int>> targets)
+    {
+        int count = 0;
+        foreach (var targetData in targets)
         {
-            target.TakeDamage(dmgInfo);
-            timeLastFired = Time.time;
-            return true;
+            if (CanHit(targetData.Item1.transform.position))
+            {
+                for (int j = 0; j < targetData.Item2; j++)
+                {
+                    targetData.Item1.TakeDamage(dmgInfo);
+                    count++;
+                    if (count == NrOfShots)
+                    {
+                        return;
+                    }
+                }
+            }
         }
-        return false;
     }
     public bool CanHit(Vector3 position)
     {
         return Vector3.Distance(transform.position, position) <= Range;
-    }
-    public bool CanFire()
-    {
-        return Time.time - timeLastFired >= Cooldown;
     }
 }
