@@ -16,6 +16,9 @@ public class Ship : MonoBehaviour
             return parameters.ID;
         }
     }
+    /// <summary>
+    /// An estimate of how powerful the ship is.
+    /// </summary>
     public float CombatPower
     {
         get
@@ -77,6 +80,10 @@ public class Ship : MonoBehaviour
     {
         CurrentHP = parameters.HP;
     }
+    /// <summary>
+    /// Move towards a point in a straight line.
+    /// </summary>
+    /// <param name="point"></param>
     public void MoveToPoint(Vector3 point)
     {
         if (Vector3.Distance(point, transform.position) < Speed)
@@ -107,6 +114,9 @@ public class Ship : MonoBehaviour
     {
         GameManager.AddShipToCleanupQueue(this);
     }
+    /// <summary>
+    /// Fires when the ship is selected.
+    /// </summary>
     public void OnSelected()
     {
         Debug.Log($"{this} has been selected.");

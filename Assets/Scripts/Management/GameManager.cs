@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] protected float turnCooldown = 1;
     [SerializeField] protected List<SquadronScriptable> fleets = new();
     protected static Queue<Ship> cleanupQueue = new();
+    public int CurrentTurn { get; protected set; }
     protected Coroutine coroutine;
     protected WaitForSeconds wait;
     public Camera MainCamera { get; protected set; }
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
             HandleShooting();
             //handle missiles separately?
             PerformCleanup();
+            CurrentTurn += 1;
         }
     }
     protected void HandleMovement()
